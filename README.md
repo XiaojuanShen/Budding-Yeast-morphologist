@@ -45,10 +45,12 @@ clone the repository
 git clone https://github.com/jormungant/Budding-Yeast-morphologist.git
 
 The installation only require a make command:
-	./make -C ./PMCode/
-(or)	cd ./PMCode ; ./make
 
-The command produces the following processes:
+./make -C ./Budding-Yeast-morphologist/
+(or)
+cd ./Budding-Yeast-morphologist ; ./make
+
+The command produces the following processes in the bin folder:
 
 PMExtractFeatures
 PMFindMultiCover
