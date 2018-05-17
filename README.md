@@ -42,7 +42,7 @@ Download the source code, under "Processes and Code"
 
 clone the repository
 
-git clone https://github.com/jormungant/Budding-Yeast-morphologist.git
+git clone https://github.com/lfhandfield/Budding-Yeast-morphologist.git
 
 The installation only require a make command:
 
