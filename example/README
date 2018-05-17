@@ -1,24 +1,38 @@
 Pipeline Example
 
-A shell script describing the pipeline can be found with the source code (see the "example/" folder). Here is an example of shell script which may be used to: 
+This folder contains a shell script of the pipeline that can be run on a provided image
 
-Identify the Cells:
+./sh example.sh 
 
-./PMTiffManip -f 2,4,6,8 HOwt_plate01_001006.tif HOwt_plate01_001006_red.tif 
+The pipeline step are the following:
 
-./PMSegmentation -B 1.0f -b HOwt_plate01_001006_seg.scp -d HOwt_plate01_001006_dist.tif HOwt_plate01_001006_red.tif HOwt_plate01_001006_seg.tif
+# Identify the Cells:
 
-./PMFindMultiCover -o HOwt_plate01_001006_ellfit.mcv -c 1.0 6.0 -H3 HOwt_plate01_001006_tred.tif HOwt_plate01_001006_tsg.tif HOwt_plate01_001006_dst.tif
+1) Parse Tiff Files for "red" channels
+PMTiffManip -f 2,4,6,8 example.tif example_red.tif
 
-./PMWaterShed -M -b 1.0 HOwt_plate01_001006_red.tif HOwt_plate01_001006_watershed.tif
+2) Separate Foreground and Background in Images:
+PMSegmentation -B 1.0f -b example_seg.scp -d example_dist.tif example_red.tif example_seg.tif
 
-./PMHiddenMapDirect -M -G HOwt_plate01_001006_watershed.tif -C HOwt_plate01_001006_cellseg.tif HOwt_plate01_001006_seg.tif HOwt_plate01_001006_dist.tif HOwt_plate01_001006_ellfit.mcv
+3) Identify Cell centers:
+PMFindMultiCover -o example_ellfit.mcv -R2 1.0 6.0 example_red.tif example_seg.tif example_dist.tif
 
-Measure GFP Intensity and spatial spread:
+4) Find Cell sub-segments:
+PMWaterShed -M -b 1.0 example_red.tif example_watershed.tif
 
+5) Cell idenfication from circle coordinated directed sub-segment agglomeration: 
+PMHiddenMapDirect -M -G example_watershed.tif -C example_cellseg.tif example_seg.tif example_dist.tif example_ellfit.mcv
 
-./PMTiffManip -f 1,3,5,7 HOwt_plate01_001006.tif HOwt_plate01_001006_gre.tif 
+# Measure GFP Intensity and spatial spread:
 
-./PMExtractFeatures -m HOwt_plate01_001006_ellfit.mcv -a 0.9 0.1 10 50 -t HOwt_plate01_001006_feat_data.txt -S HOwt_plate01_001006_seg.tif HOwt_plate01_001006_red.tif HOwt_plate01_001006_gre.tif HOwt_plate01_001006_cellseg.tif
+1) Parse Tiff Files for "green" channel:
+PMTiffManip -f 1,3,5,7 example.tif example_gre.tif 
 
-./PMMakeDisplay HOwt_plate01_001006_feat_data.txt HOwt_plate01_001006_cellseg.tif HOwt_plate01_001006_red.tif HOwt_plate01_001006_gre.tif HOwt_plate01_001006_preview.tif
+2) Compile Quality measuers into a condifence matrix binary file
+PMMakeConfidenceMatrices Conf_Matrices.scp Quality_measures.txt
+
+3) Measure GFP Intensity and spatial spread:
+PMExtractFeatures -c Conf_Matrices.scp -m example_ellfit.mcv -a 0.1 10 0.9 0.1 50 -t example_data.txt -S example_seg.tif example_red.tif example_gre.tif example_cellseg.tif
+
+4) Produce a Displayable RGB Tiff file showing the cell boundary and bud necks:
+PMMakeDisplay example_data.txt example_cellseg.tif example_red.tif example_gre.tif example_preview.tif
