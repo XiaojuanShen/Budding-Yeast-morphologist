@@ -1,15 +1,16 @@
 # Budding-Yeast-morphologist
+
 Image analysis tool that partitions microscopy images into single-cell areas or mother-bud pairs areas with identified bud neck positions
 =========================================================
 
-This software contains various primitive c++ structure, template and functions,
+This software contains various primitive c++ structures, templates and functions,
 which are to facilitate modeling image feature measurents, as capture similarity
 between populations of circular cells.
 
-It include a number of processes that are designed to allow to analyze collections
-of images by designing a pipeline of sequential tasks that manipulates and
-analyzes each given image. As processes have no external dependencies, it can
-easily be used on computer clusters.
+It includes a number of processes that are designed to allow the analysis of
+collections of images by designing a pipeline of sequential tasks that manipulates
+and analyzes each given image. As processes have no external dependencies, it can
+easily be used on computer clusters or LSF architectures.
 
 This code is available under the following licence:
 
@@ -39,8 +40,8 @@ http://www.moseslab.csb.utoronto.ca/louis-f/unsupervised/
 
 Download the source code, under "Processes and Code"
 
-Unzip the file (creates a "PMCode" directory)
-	./tar -xzf PMCode.tar.gz
+clone the repository
+
 
 The installation only require a make command:
 	./make -C ./PMCode/
