@@ -38,9 +38,7 @@ http://www.moseslab.csb.utoronto.ca/louis-f/unsupervised/
 # Installation
 ============
 
-Download the source code, under "Processes and Code"
-
-clone the repository
+Download the source code or clone the repository:
 
 git clone https://github.com/lfhandfield/Budding-Yeast-morphologist.git
 
@@ -68,9 +66,11 @@ PMMakeConfidenceMatrices
 # Pipeline Example
 ================
 
-The provided code (see Installation) also includes an example pipeline in the
-/example/ directory. In tha directory, there is a shell script "example.sh" which
-will analyze a example image "example.tif".
+The repository also includes an example pipeline in the /example/ directory.
+In that directory, there is a shell script  which will analyze a
+example image "example.tif":
+
+cd example/ ; sh example.sh
 
 After the shellscript is run, two output files will be produce:
 	example_preview.tif	(Displayable representation of the segmented cells)
