@@ -25,7 +25,7 @@
 #include "Madstructs.h"
 
 
-Taskscope<TASK_HIDDENMAP_BASE_DATAEXTRACTION>::Taskscope(): red_substract_fact(0.0f), show(false),recursive(false),residual(NULL),out_p(NULL),table_out(false),seg_im_path(NULL),mcv_in(NULL),file_dascp(NULL),distance_thr(0.0f){
+Taskscope<TASK_HIDDENMAP_BASE_DATAEXTRACTION>::Taskscope(): red_substract_fact(0.0f), show(false),recursive(false),residual(NULL),out_p(NULL),table_out(NULL),seg_im_path(NULL),mcv_in(NULL),file_dascp(NULL),distance_thr(0.0f){
 	art_k = 4.510662f -0.165461f; // ram...
 	art_k *= 1.95248835f - 0.035715438f; // intensity
 	art_k *= -0.030004794f - -3.258060922f; // density				
