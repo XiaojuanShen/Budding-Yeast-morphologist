@@ -42,6 +42,7 @@ Download the source code, under "Processes and Code"
 
 clone the repository
 
+git clone https://github.com/jormungant/Budding-Yeast-morphologist.git
 
 The installation only require a make command:
 	./make -C ./PMCode/
@@ -74,7 +75,7 @@ After the shellscript is run, two output files will be produce:
 	example_data.txt	(Tab delimited text file of feature measurements)
 
 Other intermediates file will be produced, some are tiff files that uses floating
-point representation, so that some image preview software may not recognize them.
+point representation, so that some image software may not be able to recognize them.
 
 # Help
 ====
