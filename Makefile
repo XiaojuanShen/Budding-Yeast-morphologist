@@ -1,7 +1,7 @@
 .PHONY: clean
 
 COMPILER_FLAGS = -Wno-format -Wno-write-strings
-all: ./bin/PMMakeConfidenceMatrices ./bin/PMHiddenMapDirect ./bin/PMSegmentation ./bin/PMTiffManip ./bin/PMTiffOper ./bin/PMWaterShed ./bin/PMExtractFeatures ./bin/PMProfiles ./bin/PMGTRpvalues ./bin/PMMPDpvalues ./bin/PMFindMultiCover ./bin/PMMakeDisplay 
+all: ./bin/PMMakeConfidenceMatrices ./bin/PMHiddenMapDirect ./bin/PMSegmentation ./bin/PMTiffManip ./bin/PMTiffOper ./bin/PMWaterShed ./bin/PMExtractFeatures ./bin/PMProfiles ./bin/PMGTRpvalues ./bin/PMMPDpvalues ./bin/PMFindMultiCover ./bin/PMMakeDisplay ./bin/PMFlexToTiff
 
 ./src/primitive.o: ./src/primitive.cpp ./src/primitive.h ./src/primitive_tem.h ./src/primitive_stats.h ./src/DataGrid.hpp ./src/primitive_stats.h ./src/Vector.hpp ./src/primstats_tem.h
 	g++ ${COMPILER_FLAGS} -o ./src/primitive.o -c ./src/primitive.cpp
@@ -17,6 +17,9 @@ all: ./bin/PMMakeConfidenceMatrices ./bin/PMHiddenMapDirect ./bin/PMSegmentation
 
 ./bin/PMTiffOper: ./src/TiffManip.o ./src/Madstructs.o ./src/primitive.o
 	g++ ${COMPILER_FLAGS} -DTaSk_Id=TASK_TIFF_FILE_OPERATION ./src/main_caller.cpp ./src/TiffManip.o ./src/Madstructs.o ./src/primitive.o -o ./bin/PMTiffOper
+
+./bin/PMFlexToTiff: ./src/TiffManip.o ./src/Madstructs.o ./src/primitive.o
+	g++ ${COMPILER_FLAGS} -DTaSk_Id=TASK_REMOVE_FACTORS ./src/main_caller.cpp ./src/TiffManip.o ./src/Madstructs.o ./src/primitive.o -o ./bin/PMFlexToTiff
 
 ./src/TiffManip.o: ./src/TiffManip.cpp
 	g++ ${COMPILER_FLAGS} -c ./src/TiffManip.cpp -o ./src/TiffManip.o
