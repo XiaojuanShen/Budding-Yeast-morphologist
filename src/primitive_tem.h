@@ -2084,7 +2084,7 @@ LFHTEMP double GaussElem< Tuple<C,0u>, 0 >::Pvalue_LRTest_UnequalVariance_Masked
 		unsigned int required;
 		int tmp_iscompressed;
 		while(gotoNext()){
-			required =0;
+			required =0; nbchannels= 1;
 			for(i=0;i<curflaglist.getSize()/12;i++){
 				switch (*(unsigned short*)&(curflaglist[i*12])){
 					case 256: size[0] = getValue<unsigned int>(i); required |= 1; break;//memcpy(buffer+512,"ImageWidth",sizeof(char)*11);break;
@@ -2092,12 +2092,12 @@ LFHTEMP double GaussElem< Tuple<C,0u>, 0 >::Pvalue_LRTest_UnequalVariance_Masked
 					case TIFFFLAG_Compression: tmp_iscompressed = getValue<int>(i); if ((tmp_iscompressed != 0)&&(tmp_iscompressed != 1)) {fprintf(stderr,"Tiff file is saved in a compressed format, it needs to be uncompressed.\n"); exit(1);} break; 
 					case 258: break;
 					case 273: stripof = getValue<unsigned int>(i); required |= 8;break;//memcpy(buffer+512,"SkipOffsets",sizeof(char)*12);break;
-					case 277: nbchannels= getValue<unsigned int>(i); required |= 4;break;//memcpy(buffer+512,"SamplesPerPixel",sizeof(char)*16);break;
+					case 277: nbchannels= getValue<unsigned int>(i); break;//memcpy(buffer+512,"SamplesPerPixel",sizeof(char)*16);break;
 					case 278: stripro= getValue<unsigned int>(i); required |= 16;break;//memcpy(buffer+512,"RowsPerStrip",sizeof(char)*13);break;
 					case 279: stripco= getValue<unsigned int>(i); required |= 32;break;//memcpy(buffer+512,"StripByteCounts",sizeof(char)*16);break;
 				}
 			}
-			if (required == 63){
+			if (required == 59){
 				_out.push_back(DataGrid<Tuple<C,channels>,2>());
 				cur = &(_out[_out.getSize()-1]);
 				cur->setSizes(size);
@@ -2124,7 +2124,7 @@ LFHTEMP double GaussElem< Tuple<C,0u>, 0 >::Pvalue_LRTest_UnequalVariance_Masked
 		if (!gotoNext()){
 			return(false);
 		}else{
-			required =0;
+			required =0; size[0] = 1;
 			for(i=0;i<curflaglist.getSize()/12;i++){
 				tmpflag = *(unsigned short*)&(curflaglist[i*12]);
 				if (inv) ExOp::bytereverse(tmpflag);
@@ -2134,13 +2134,13 @@ LFHTEMP double GaussElem< Tuple<C,0u>, 0 >::Pvalue_LRTest_UnequalVariance_Masked
 					case TIFFFLAG_Compression: tmp_iscompressed = getValue<int>(i); if ((tmp_iscompressed != 0)&&(tmp_iscompressed != 1)) {fprintf(stderr,"Tiff file is saved in a compressed format, it needs to be uncompressed.\n"); exit(1);} break; 
 					case 258: unitsize = getValue<unsigned int>(i); break;
 					case 273: stripof = getValue< vector<unsigned int> >(i); required |= 8;break;//memcpy(buffer+512,"SkipOffsets",sizeof(char)*12);break;
-					case 277: size[0] = getValue<unsigned int>(i); required |= 4;break;//memcpy(buffer+512,"SamplesPerPixel",sizeof(char)*16);break;
+					case 277: size[0] = getValue<unsigned int>(i); break;//memcpy(buffer+512,"SamplesPerPixel",sizeof(char)*16);break;
 					case 278: stripro= getValue<unsigned int>(i); required |= 16;break;//memcpy(buffer+512,"RowsPerStrip",sizeof(char)*13);break;
 					case 279: stripco= getValue< vector<unsigned int> >(i); required |= 32;break;//memcpy(buffer+512,"StripByteCounts",sizeof(char)*16);break;
 					case 339: type = getValue<unsigned int>(i);	break; //SampleFormat
 				}
 			}
-				if (required == 63){
+				if (required == 59){
 					f_out.setSizes(size);
 				//	printf("%i,,,%i,,,%i\n",stripro, size[2] ,stripco.getSize());
 					fseek(f,stripof[0],SEEK_SET); k=j=i=0;
@@ -2337,7 +2337,7 @@ LFHTEMP double GaussElem< Tuple<C,0u>, 0 >::Pvalue_LRTest_UnequalVariance_Masked
 		if (!gotoNext()){
 			return(false);
 		}else{
-			required =0;
+			required =0; size[0] = 1;
 			for(i=0;i<curflaglist.getSize()/12;i++){
 				//	printf("flagtype %i\n", *(unsigned short*)&(curflaglist[i*12])); fflush(stdout);
 				tmpflag = *(unsigned short*)&(curflaglist[i*12]);
@@ -2349,13 +2349,13 @@ LFHTEMP double GaussElem< Tuple<C,0u>, 0 >::Pvalue_LRTest_UnequalVariance_Masked
 					case TIFFFLAG_Compression: tmp_iscompressed = getValue<int>(i); if ((tmp_iscompressed != 0)&&(tmp_iscompressed != 1)) {fprintf(stderr,"Tiff file is saved in a compressed format, it needs to be uncompressed.\n"); exit(1);} break; 
 					case 258: unitsize = getValue<unsigned int>(i); break;
 					case 273: stripof = getValue< vector<unsigned int> >(i); required |= 8;break;//memcpy(buffer+512,"SkipOffsets",sizeof(char)*12);break;
-					case 277: size[0] = getValue<unsigned int>(i); required |= 4;break;//memcpy(buffer+512,"SamplesPerPixel",sizeof(char)*16);break;
+					case 277: size[0] = getValue<unsigned int>(i); break;//memcpy(buffer+512,"SamplesPerPixel",sizeof(char)*16);break;
 					case 278: stripro= getValue<unsigned int>(i); required |= 16;break;//memcpy(buffer+512,"RowsPerStrip",sizeof(char)*13);break;
 					case 279: stripco= getValue< vector<unsigned int> >(i); required |= 32;break;//memcpy(buffer+512,"StripByteCounts",sizeof(char)*16);break;
 					case 339: type = getValue<unsigned int>(i);	break; //SampleFormat
 				}
 			}
-			if (required == 63){
+			if (required == 59){
 				f_out.setSizes(size+1);
 				//	printf("%i,,,%i,,,%i\n",stripro, size[2] ,stripco.getSize());
 				fseek(f,stripof[0],SEEK_SET); k=j=i=0;
@@ -2501,7 +2501,7 @@ LFHTEMP double GaussElem< Tuple<C,0u>, 0 >::Pvalue_LRTest_UnequalVariance_Masked
 		if (!gotoNext()){
 			return(false);
 		}else{
-			required =0;
+			required =0; size[0] =1;
 			for(i=0;i<curflaglist.getSize()/12;i++){
 				//	printf("flagtype %i\n", *(unsigned short*)&(curflaglist[i*12])); fflush(stdout);
 				tmpflag = *(unsigned short*)&(curflaglist[i*12]);
@@ -2513,13 +2513,13 @@ LFHTEMP double GaussElem< Tuple<C,0u>, 0 >::Pvalue_LRTest_UnequalVariance_Masked
 					case TIFFFLAG_Compression: tmp_iscompressed = getValue<int>(i); if ((tmp_iscompressed != 0)&&(tmp_iscompressed != 1)) {fprintf(stderr,"Tiff file is saved in a compressed format, it needs to be uncompressed.\n"); exit(1);} break; 
 					case 258: unitsize = getValue<unsigned int>(i); break;
 					case 273: stripof = getValue< vector<unsigned int> >(i); required |= 8;break;//memcpy(buffer+512,"SkipOffsets",sizeof(char)*12);break;
-					case 277: size[0] = getValue<unsigned int>(i); required |= 4;break;//memcpy(buffer+512,"SamplesPerPixel",sizeof(char)*16);break;
+					case 277: size[0] = getValue<unsigned int>(i); break;//memcpy(buffer+512,"SamplesPerPixel",sizeof(char)*16);break;
 					case 278: stripro= getValue<unsigned int>(i); required |= 16;break;//memcpy(buffer+512,"RowsPerStrip",sizeof(char)*13);break;
 					case 279: stripco= getValue< vector<unsigned int> >(i); required |= 32;break;//memcpy(buffer+512,"StripByteCounts",sizeof(char)*16);break;
 					case 339: type = getValue<unsigned int>(i);	break; //SampleFormat
 				}
 			}
-			if (required == 63){
+			if (required == 59){
 				f_out.setSizes(size+1);
 				//	printf("%i,,,%i,,,%i\n",stripro, size[2] ,stripco.getSize());
 				fseek(f,stripof[0],SEEK_SET); k=j=i=0;
